@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [main, develop]
 
+# 読み取り・検証のみ行うワークフローのため GITHUB_TOKEN は contents:read に限定する
+permissions:
+  contents: read
+
 jobs:
   validate-yaml:
     name: Validate YAML / JSON
