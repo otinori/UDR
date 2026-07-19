@@ -13,10 +13,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Validate config.yaml
+      - name: Validate config.yaml (if present)
         run: |
           python3 -c "
-          import yaml, sys
+          import yaml, sys, os
+          if not os.path.exists('.udr/config.yaml'):
+            print('.udr/config.yaml not found (untracked in personal projects, see UDR-UDR-20260719T0846-d39) — skipping')
+            sys.exit(0)
           with open('.udr/config.yaml') as f:
             data = yaml.safe_load(f)
           required = ['project', 'storage', 'repo_short', 'tools', 'sync']
