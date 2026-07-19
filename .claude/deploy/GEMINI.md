@@ -49,4 +49,4 @@ ID 生成: `UDR-$(cat .udr/config.yaml | grep repo_short | awk '{print $2}')-$(d
 
 ---
 
-*UDR v0.6.0.1-PoC / このファイルは `install.sh --gemini` で生成されました*
+*UDR v0.6.0.2-PoC / このファイルは `install.sh --gemini` で生成されました*

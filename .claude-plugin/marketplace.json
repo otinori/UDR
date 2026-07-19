@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
   "name": "udr-marketplace",
-  "version": "0.6.0.1-PoC",
+  "version": "0.6.0.2-PoC",
   "description": "UDR (Universal Decision Record) の配布マーケットプレイス。判断記録 skill 群をプラグインとして提供する。",
   "owner": {
     "name": "otinori",
@@ -12,7 +12,7 @@
       "name": "udr",
       "source": "./plugins/udr",
       "description": "UDR 運用 skill 一式 (init / record / search / sync / trace / review / dashboard) と commit 時リマインド hook。Phase 1 PoC, プロンプトレベル実装, 実験的プロジェクト。",
-      "version": "0.6.0.1-PoC",
+      "version": "0.6.0.2-PoC",
       "category": "documentation",
       "license": "MIT"
     }

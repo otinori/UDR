@@ -1,5 +1,5 @@
-udr-skills 0.6.0.1-PoC
+udr-skills 0.6.0.2-PoC
 phase: Phase 1 PoC (prompt-level)
 schema_version: 0.1
 min_claude_code: 任意 (skills 機能対応版)
-date: 2026-07-12  # 0.6.0.1-PoC リリース（変更履歴は CHANGELOG.md 参照）
+date: 2026-07-20  # 0.6.0.2-PoC リリース（変更履歴は CHANGELOG.md 参照）

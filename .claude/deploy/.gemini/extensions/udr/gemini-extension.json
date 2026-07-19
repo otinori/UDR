@@ -1,6 +1,6 @@
 {
   "name": "udr",
-  "version": "0.6.0.1-PoC",
+  "version": "0.6.0.2-PoC",
   "displayName": "UDR — Universal Decision Record",
   "description": "開発中の判断（アーキ選定・要件解釈・技術選定など）を YAML で構造的に記録し、AI コンテキストファイルへ自動同期する UDR 運用サポート。init / record / search / sync / trace / review / dashboard の 7 操作のプロンプトテンプレートを提供（Phase 1 PoC）。",
   "systemPrompt": "このプロジェクトは UDR (Universal Decision Record) を使って開発判断を記録します。会話開始時に GEMINI.md と AGENTS.md（存在する場合）を読み込み、UDR 自動検知ポリシーに従ってください。判断が発生した際は応答末尾に [UDR 候補] を付記し、記録を提案してください。操作時は .claude/skills/_udr-shared/templates/gemini-prompts/ 配下のテンプレートを参照してください。"

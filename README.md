@@ -2,7 +2,7 @@
 name: "UDR (Universal Decision Record)"
 description: "開発中に発生した判断をYAML形式で構造的に記録し、AIコンテキストファイルへ自動同期する意思決定記録基盤。"
 background: "AIネイティブ開発では「なぜその判断をしたか」という経緯が会話の中に埋もれて失われやすい。この経緯をAIが読めるYAML台帳として残し、後から追跡・活用できるようにするために作った。"
-version: "0.6.0.1-PoC"
+version: "0.6.0.2-PoC"
 nature: "experiment"
 status: "active"
 goal: "判断とその棄却理由をDAGで追跡可能な形で記録し、AIコンテキストファイルへの自動同期を維持できる状態を実現する。"
@@ -10,7 +10,7 @@ target_audience: "AIエージェント（Claude Code / Gemini CLI / Codex CLI / 
 architecture: "Phase 1 PoC（プロンプトレベル実装 / Claude Code skills）"
 language: ["Markdown", "YAML", "Python", "Shell"]
 license: "MIT"
-last_updated: 2026-07-19
+last_updated: 2026-07-20
 ---
 
 # UDR — Universal Decision Record
@@ -386,7 +386,7 @@ bash dist/scripts/build.sh
 
 ## バージョン
 
-- **udr-skills**: `0.6.0.1-PoC` (Phase 1 PoC / prompt-level)。変更履歴は [`CHANGELOG.md`](CHANGELOG.md) 参照
+- **udr-skills**: `0.6.0.2-PoC` (Phase 1 PoC / prompt-level)。変更履歴は [`CHANGELOG.md`](CHANGELOG.md) 参照
 - **schema_version**: `0.1`
 - **対象**: Claude Code skills 機能対応版（将来的に MCP Server 対応クライアント全般）
 

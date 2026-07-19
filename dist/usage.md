@@ -2,7 +2,7 @@
 
 > ⚠️ **実験的プロジェクトです。** Phase 1 PoC 段階のため、スキーマ・コマンド体系は今後変更される可能性があります。
 
-**バージョン:** `udr-skills 0.6.0.1-PoC` (Phase 1 PoC / プロンプトレベル実装)
+**バージョン:** `udr-skills 0.6.0.2-PoC` (Phase 1 PoC / プロンプトレベル実装)
 
 このバンドルは Claude Code で動作する UDR (Universal Decision Record) の skill 一式です。
 MCP Server は Phase 2 で提供されます。本 Phase では Claude が YAML を直接読み書きします。
