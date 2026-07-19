@@ -1,0 +1,62 @@
+name: Sync mirrors
+
+# .claude/skills/ と .claude/deploy/ が UDR skill の source of truth。
+# PR でそこに変更が入ったら plugins/udr/ ミラーを自動生成し、bot commit として
+# 同じ PR ブランチに push する。人間のレビューは .claude/ の差分だけを見れば済み、
+# 生成されたミラーの差分は bot commit として分離される (PR レビュー時の
+# 「同じ修正が複数箇所に出て差分チェックが面倒」問題への対応)。
+#
+# 前提: リポジトリ設定 Settings > Actions > General > Workflow permissions で
+# 「Read and write permissions」を有効にしておくこと（GITHUB_TOKEN の push 権限）。
+# forked リポジトリからの PR では GITHUB_TOKEN の書き込み権限が付与されないため対象外。
+
+on:
+  pull_request:
+    branches: [main, develop]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+
+jobs:
+  sync-mirrors:
+    # フォークからの PR は GITHUB_TOKEN に push 権限が無いためスキップ
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 1
+
+      - name: Skip if last commit is this workflow's own bot commit (loop prevention)
+        id: check
+        run: |
+          author="$(git log -1 --pretty=%an)"
+          if [ "$author" = "github-actions[bot]" ]; then
+            echo "Last commit is already a bot sync commit, skipping."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Rebuild plugins/udr/ mirror from .claude/
+        if: steps.check.outputs.skip == 'false'
+        run: bash dist/scripts/build.sh
+
+      - name: Commit and push mirror changes (if any)
+        if: steps.check.outputs.skip == 'false'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet -- plugins/udr/; then
+            echo "plugins/udr/ mirror already in sync, nothing to commit."
+            exit 0
+          fi
+
+          git add plugins/udr/
+          # [skip ci] で、この push が再度 pull_request イベントを起こしても
+          # validate.yml / sync-mirrors.yml 自体は起動しない（無限ループ防止の二重の保険）
+          git commit -m "chore: sync plugins/udr/ mirror from .claude/ [skip ci]"
+          git push origin "HEAD:${{ github.event.pull_request.head.ref }}"

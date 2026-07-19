@@ -1,0 +1,50 @@
+name: 機能リクエスト
+description: 新機能や改善を提案する
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        機能リクエストありがとうございます。
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: 解決したい課題
+      description: どんな問題や不便さを解決したいですか？
+      placeholder: "現在 〜 ができない / 〜 が不便なため..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: 提案する解決策
+      description: どのような機能があると良いか説明してください
+    validations:
+      required: true
+
+  - type: dropdown
+    id: phase
+    attributes:
+      label: 対象フェーズ
+      description: この機能はどのフェーズに適しますか？
+      options:
+        - Phase 1（skill/プロンプトレベル）
+        - Phase 2（MCP Server）
+        - どちらでも可
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 検討した代替案
+      description: 他に検討した解決策があれば記載してください（UDR 精神として棄却理由も書いてもらえると助かります）
+
+  - type: textarea
+    id: context
+    attributes:
+      label: 追加コンテキスト
+      description: その他、参考になる情報があれば

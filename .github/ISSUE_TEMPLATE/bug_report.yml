@@ -1,0 +1,82 @@
+name: バグ報告
+description: UDR skill の動作不具合を報告する
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        バグ報告ありがとうございます。できるだけ詳しく記入してください。
+
+  - type: dropdown
+    id: skill
+    attributes:
+      label: 発生した skill
+      description: 問題が発生した skill を選択してください
+      options:
+        - udr-init
+        - udr-record
+        - udr-search
+        - udr-sync
+        - udr-trace
+        - udr-review
+        - udr-dashboard
+        - その他（skill 外）
+    validations:
+      required: true
+
+  - type: dropdown
+    id: agent
+    attributes:
+      label: 使用している AI エージェント
+      options:
+        - Claude Code
+        - Gemini CLI
+        - OpenAI Codex CLI
+        - Cursor
+        - Continue
+        - その他
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: バグの説明
+      description: 何が起きたか説明してください
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 再現手順
+      description: バグを再現する手順を記載してください
+      placeholder: |
+        1. `/udr-record` を実行
+        2. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期待した動作
+      description: 本来どう動作すべきかを記載してください
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: 実際の動作
+      description: 実際に何が起きたかを記載してください
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: UDR バージョン
+      description: "`dist/VERSION` の内容"
+      placeholder: "udr-skills 0.1.0-poc1"

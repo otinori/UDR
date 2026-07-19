@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "udr",
+  "displayName": "UDR — Universal Decision Record",
+  "version": "0.6.0.1-PoC",
+  "description": "開発中の判断 (アーキ選定・要件解釈・技術選定など) を YAML で構造的に記録し、AI コンテキストファイルへ自動同期する UDR 運用 skill 一式。init / record / search / sync / trace / review / dashboard の 7 skill と、commit 時のリマインド hook を提供 (Phase 1 PoC, プロンプトレベル実装, 実験的プロジェクト)。",
+  "author": {
+    "name": "otinori",
+    "email": "65024435+otinori@users.noreply.github.com"
+  },
+  "homepage": "https://github.com/otinori/UDR",
+  "repository": "https://github.com/otinori/UDR",
+  "license": "MIT",
+  "keywords": [
+    "udr",
+    "decision-record",
+    "adr",
+    "ai-context",
+    "documentation",
+    "governance"
+  ],
+  "skills": ["./skills/"]
+}

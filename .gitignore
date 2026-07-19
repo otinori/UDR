@@ -1,0 +1,17 @@
+# UDR (Phase 1 PoC)
+# 個人プロジェクトでの利用のため .udr/ 配下(判断記録含む)は丸ごとGit非追跡とする
+# (UDR-UDR-20260719T0846-d39: 財産である判断記録を公開時に漏らさないための方針。
+#  チーム開発の private リポジトリで共有する場合はこの行を外すこと)
+.udr/
+# /udr-dashboard の生成物 (自分確認用、コミット不要)
+udr_dashboard.html
+
+# OS ファイル (dist/scripts に PowerShell 版もありクロスプラットフォーム対応のため両OS分を除外)
+.DS_Store
+Thumbs.db
+
+# pre-public-audit skill の監査成果物 (ファイルパス・指摘事項を含むためローカル記録として非追跡)
+PRE_PUBLIC_AUDIT_EVIDENCE.md
+
+# Claude Code の個人ローカル設定 (ローカル実行パス等が混入するため追跡しない)
+.claude/settings.local.json

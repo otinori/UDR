@@ -1,0 +1,29 @@
+{
+  "description": "UDR (Universal Decision Record) の判断記録リマインド。git commit 実行前とセッション開始時に非ブロッキングでコンテキストを提示する（IM-04）。すべて ${CLAUDE_PLUGIN_ROOT} / ${CLAUDE_PROJECT_DIR} 経由の相対参照のみで動作し、絶対パスは持たない。python3 が PATH に無い環境、.udr/records/ が存在しないプロジェクト（未初期化）、.udr/config.yaml の hooks.enabled が true でないプロジェクトでは何もしない（既定は無効、/udr-init Step 2.7 で opt-in）。",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "if": "Bash(git commit *)",
+            "command": "command -v python3 >/dev/null 2>&1 && python3 \"${CLAUDE_PLUGIN_ROOT}\"/hooks/check_commit.py || exit 0",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v python3 >/dev/null 2>&1 && python3 \"${CLAUDE_PLUGIN_ROOT}\"/hooks/session_briefing.py || exit 0",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

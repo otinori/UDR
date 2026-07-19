@@ -1,0 +1,92 @@
+name: Validate
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  validate-yaml:
+    name: Validate YAML / JSON
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate config.yaml
+        run: |
+          python3 -c "
+          import yaml, sys
+          with open('.udr/config.yaml') as f:
+            data = yaml.safe_load(f)
+          required = ['project', 'storage', 'repo_short', 'tools', 'sync']
+          for key in required:
+            if key not in data:
+              print(f'ERROR: missing required key: {key}', file=sys.stderr)
+              sys.exit(1)
+          print('config.yaml OK')
+          "
+
+      - name: Validate plugin manifests (JSON)
+        run: |
+          python3 -c "
+          import json, sys, pathlib
+          errors = []
+          for p in pathlib.Path('.').rglob('*.json'):
+            if '.git' in str(p):
+              continue
+            try:
+              with open(p) as f:
+                json.load(f)
+            except json.JSONDecodeError as e:
+              errors.append(f'{p}: {e}')
+          if errors:
+            for e in errors:
+              print(f'ERROR: {e}', file=sys.stderr)
+            sys.exit(1)
+          print(f'All JSON files valid')
+          "
+
+      - name: Validate UDR records (if any)
+        run: |
+          python3 -c "
+          import yaml, sys, pathlib, os
+          records = list(pathlib.Path('.udr/records').glob('UDR-*.yaml'))
+          if not records:
+            print('No UDR records found — skipping')
+            sys.exit(0)
+          required_fields = ['id', 'title', 'domain', 'status', 'severity', 'date', 'decision']
+          errors = []
+          for p in records:
+            try:
+              with open(p) as f:
+                data = yaml.safe_load(f)
+              for field in required_fields:
+                if field not in data:
+                  errors.append(f'{p}: missing field \"{field}\"')
+            except yaml.YAMLError as e:
+              errors.append(f'{p}: YAML parse error: {e}')
+          if errors:
+            for e in errors:
+              print(f'ERROR: {e}', file=sys.stderr)
+            sys.exit(1)
+          print(f'All {len(records)} UDR record(s) valid')
+          "
+
+  validate-skills:
+    name: Validate mirrors are in sync with .claude/
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check plugins/udr/ mirror is in sync with .claude/ (source of truth)
+        run: |
+          bash dist/scripts/build.sh
+          if ! git diff --quiet plugins/udr/skills/ plugins/udr/GEMINI.md plugins/udr/.gemini/; then
+            echo "ERROR: plugins/udr/ mirror is out of sync with .claude/skills/ + .claude/deploy/"
+            echo "Normally sync-mirrors.yml auto-commits this on PRs. If it didn't run"
+            echo "(e.g. direct push to main/develop), run 'bash dist/scripts/build.sh' and commit."
+            git diff --stat plugins/udr/
+            exit 1
+          fi
+          echo "plugins/udr/ mirror is in sync with .claude/"
